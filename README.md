@@ -1,6 +1,6 @@
 ## HOGAN-EXPRESS
 
-[Mustache][1] template engine for the [express 3.x][2] web framework.
+[Mustache][1] template engine for the [express 4.x][2] web framework.
 
 Uses twitter's [hogan.js][3] engine.
 
@@ -22,22 +22,32 @@ Install hogan-express using [npm][4]:
 To use hogan-express, map the file extension of your choice to the
 hogan-express engine in your app setup.  For example:
 
-```coffeescript
-app.set 'view engine', 'html'    # use .html extension for templates
-app.set 'layout', 'layout'       # use layout.html as the default layout
-app.set 'partials', foo: 'foo'   # define partials available to all pages
-app.enable 'view cache'
-app.engine 'html', require('hogan-express')
+```javascript
+app.set('view engine', 'html');
+app.set('layout', 'layout');
+app.set('partials', {
+  foo: 'foo'
+});
+app.enable('view cache');
+app.engine('html', require('hogan-express'));
 ```
 
 #### Rendering a template
 
 Within your app route callback, define `res.locals` and call `res.render`, passing any partials required by your template.  For example:
 
-```coffeescript
-app.get '/', (req,res)->
-  res.locals = name: 'Andrew'
-  res.render 'template', partials: {message: 'message'}
+```javascript
+app.get('/', function (req, res) {
+  res.locals = {
+    name: 'Andrew'
+  };
+  return res.render('template', {
+    partials: {
+      message: 'message'
+    }
+  });
+});
+
 ```
 
 This would render the layout (`layout.html`, defined in setup) using the template (`template.html`) and the specified partials (`message.html`).
@@ -115,20 +125,35 @@ To render a page with custom layout, just specify it in the options: `res.render
 
 To create custom filters (or lambdas) you can just specify your filter functions in the options:
 
-```coffeescript
-app.get '/', (req,res)->
+```javascript
+app.get('/', function(req, res) {
+  res.locals = {
+    myDefaultLabel: "oops"
+  };
+  return res.render('template', {
+    message: 'This is a message. HERE.',
+    mylist: [
+      {
+        label: "one",
+        num: 1
+      }, {
+        label: "two",
+        num: 2
+      }, {
+        num: 3
+      }
+    ],
+    lambdas: {
+      lowercase: function(text) {
+        return text.toLowerCase();
+      },
+      reverseString: function(text) {
+        return text.split("").reverse().join("");
+      }
+    }
+  });
+});
 
-  res.locals = myDefaultLabel: "oops" # here to show a little of how scoping works
-
-  res.render 'template',
-    message: 'This is a message. HERE.'
-    mylist: [{label: "one", num: 1},{label: "two", num: 2},{num: 3}]
-
-    lambdas:
-     lowercase: (text) ->
-       return text.toLowerCase()
-     reverseString: (text) ->
-       return text.split("").reverse().join("")
 ```
 
 template:

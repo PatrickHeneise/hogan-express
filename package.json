@@ -1,7 +1,7 @@
 {
   "name": "hogan-express",
-  "version": "0.5.2",
-  "description": "Mustache template engine for express 3.x. Support partials and layout",
+  "version": "0.6.0",
+  "description": "Mustache template engine for expressjs. Support partials and layout",
   "main": "hogan-express.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,16 +19,23 @@
     "engine"
   ],
   "author": "Andrew Volkov <hello@vol4ok.net>",
+  "contributors": [
+    {
+      "name" : "Patrick Heneise",
+      "email" : "mail@patrickheneise.com",
+      "url" : "http://patrickheneise.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "hogan.js": ">=2.0.0"
   },
   "devDependencies": {
-    "coffee-script": "1.x.x",
+    "coffee-script": "*",
     "colors": "0.6.x",
     "supertest": "~0.8.0",
     "cheerio": "~0.12.2",
     "expect.js": "~0.2.0",
-    "express": "~3.4.0"
+    "express": "~4.0.0"
   }
 }
